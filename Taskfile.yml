@@ -1,0 +1,25 @@
+version: "3"
+
+env:
+  AWS_PROFILE: "admin"
+
+tasks:
+  deploy:
+    cmds:
+      - pip install -r requirements.txt -t .layers/python --no-cache-dir
+      - cdk deploy
+  diff:
+    cmds:
+      - pip install -r requirements.txt -t .layers/python --no-cache-dir
+      - cdk diff
+  snapshot-update:
+    cmds:
+      - pytest tests/cdk --snapshot-update
+  mfa:
+    cmds:
+      - aws-mfa
+  check:
+    cmds:
+      - pytest tests
+      - mypy src cdk
+      - ruff check .
